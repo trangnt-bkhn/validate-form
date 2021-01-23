@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
+
+    <title>Validation</title>
+</head>
+<body>
+  
+    <div class="main">
+        <!-- SIGN UP FORM  -->
+        <form action="" method="POST" class="form" id="form-1">
+          <h3 class="heading">SIGN UP</h3>
+          <p class="desc">Welcome to the store ❤️</p>
+      
+          <div class="spacer"></div>
+      
+          <div class="form-group">
+            <label for="fullname" class="form-label">FullName</label>
+            <input id="fullname" name="fullname" type="text" placeholder="Eg: Trang Nguyen" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="text" placeholder="Eg: email@domain.com" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" name="password" type="password" placeholder="Password" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group">
+            <label for="password_confirmation" class="form-label">Password Confirmation</label>
+            <input id="password_confirmation" name="password_confirmation" placeholder="Password Confirmation" type="password" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="country" class="form-label">Country</label>
+            <select id="country" name="country" class="form-control">
+              <option value="">--Choose a country--</option>
+              <option value="vietnam">Viet Nam</option>
+              <option value="singapore">Singapore</option>
+            </select>
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="avatar" class="form-label">Avatar</label>
+            <input id="avatar" name="avatar" type="file" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="gender" class="form-label">Gender</label>
+            <div class="horizontal">
+              <div class="gender">
+                <input name="gender" type="checkbox" value="male" class="form-control">
+                <span class="gender_text">Male</span>
+              </div>
+
+              <div class="gender">
+                <input name="gender" type="checkbox" value="female" class="form-control">
+                <span class="gender_text">Female</span>
+              </div>
+
+              <div class="gender">
+                <input name="gender" type="checkbox" value="others" class="form-control">
+                <span class="gender_text">Others</span>
+              </div>
+            </div>
+            
+            <span class="form-message"></span>
+          </div>
+
+          <!-- <div class="form-group">
+            <label for="gender" class="form-label">Gender</label>
+            <div class="horizontal">
+              <div class="gender">
+                <input name="gender" type="radio" value="male" class="form-control">
+                <span class="gender_text">Male</span>
+              </div>
+
+              <div class="gender">
+                <input name="gender" type="radio" value="female" class="form-control">
+                <span class="gender_text">Female</span>
+              </div>
+
+              <div class="gender">
+                <input name="gender" type="radio" value="others" class="form-control">
+                <span class="gender_text">Others</span>
+              </div>
+            </div>
+            
+            <span class="form-message"></span>
+          </div> -->
+      
+          <button class="form-submit">SIGN UP</button>
+        </form>
+
+        <!-- // LOG IN FORM -->
+
+        <form action="" method="POST" class="form" id="form-2">
+          <h3 class="heading">LOG IN</h3>
+          <p class="desc">Welcome to the store ❤️</p>
+
+          <div class="spacer"></div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="text" placeholder="Eg: email@domain.com" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" name="password" type="password" placeholder="Password" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <button class="form-submit">LOG IN</button>
+        </form>
+      
+    </div>
+
+
+
+
+
+    <script src="./validator.js"></script>
+    
+    
+    <script>
+        // My Expectation, Write one varidator file, can run for every case. Only need pass argurments in to an object.
+        // Invoke Validate function() and pass an object is argument.
+        Validator({
+            form: '#form-1',
+            formGroupSelector: '.form-group',
+            errorSelector: '.form-message',
+            rules: [
+              // The function name can be Validator.isRequired or only isRequired
+              Validator.isRequired('#fullname', 'Please full in your fullname'),
+              Validator.isRequired('#email'),
+              Validator.isEmail('#email'),
+              Validator.minLength('#password', 8),
+              // When you set 2 rules for 1 element by set 2 rules like below, only the last rule is applied, if you want apply above rule, need to commend the last rule.
+              Validator.isRequired('#password_confirmation'),
+              Validator.isConfirmed('#password_confirmation', function() {
+                return document.querySelector('#form-1 #password').value;
+              }, 'incorrect password'),
+              Validator.isRequired('#country'),
+              Validator.isRequired('#avatar'),
+              Validator.isRequired('input[name="gender"]')
+            ],
+            onSubmit: function(data) {
+              // Call API
+              console.log(data);
+            }
+        });
+
+
+        Validator({
+            form: '#form-2',
+            formGroupSelector: '.form-group',
+            errorSelector: '.form-message',
+            rules: [
+              Validator.isRequired('#email'),
+              Validator.isEmail('#email'),
+              Validator.minLength('#password', 8),
+              // When you set 2 rules for 1 element by set 2 rules like below, only the last rule is applied, if you want apply above rule, need to commend the last rule.
+            ],
+            onSubmit: function(data) {
+              // Call API
+              console.log(data);
+            }
+        });
+    </script>
+
+</body>
+</html>
